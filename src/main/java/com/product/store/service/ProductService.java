@@ -44,4 +44,16 @@ public class ProductService {
     }
 
 
+    public List<Product> searchProducts(String name, String category){
+        if (name != null && category != null) {
+            return productRepository.findByNameContainingAndCategoryNameContaining(name, category);
+        } else if (name != null) {
+            return productRepository.findByNameContaining(name);
+        } else if (category != null) {
+            return productRepository.findByCategoryNameContaining(category);
+        } else {
+            return productRepository.findAll();
+        }
+    }
+
 }
