@@ -4,6 +4,7 @@ import com.product.store.entity.Product;
 import com.product.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/{sortBy}")
+    @GetMapping("/sortBy/{sortBy}")
     public List<Product> getAllProductsBySort(
             @RequestParam(name = "sortBy", required = false) String sortBy,
             @RequestParam(name = "sortDir", required = false, defaultValue = "asc") String sortDir) {
@@ -38,9 +39,10 @@ public class ProductController {
         return productService.createProduct(product);
     }
 
-    @PutMapping()
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
-        return productService.updateProduct(id, productDetails);
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
+        Product updatedProduct = productService.updateProduct(id, productDetails);
+        return ResponseEntity.ok(updatedProduct);
     }
 
     @DeleteMapping("/{id}")
