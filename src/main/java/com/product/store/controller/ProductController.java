@@ -16,11 +16,16 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping public List<Product> getAllProducts(
+    @GetMapping public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/{sortBy}")
+    public List<Product> getAllProductsBySort(
             @RequestParam(name = "sortBy", required = false) String sortBy,
             @RequestParam(name = "sortDir", required = false, defaultValue = "asc") String sortDir) {
         Sort sort = Sort.by(sortDir.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy);
-        return productService.getAllProducts(sort);
+        return productService.getAllProductsBySort(sort);
     }
 
     @GetMapping("/{id}")
